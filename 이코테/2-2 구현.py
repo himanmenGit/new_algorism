@@ -167,3 +167,156 @@ for h in range(N + 1):
                 count += 1
 
 print(count)
+
+# 왕실의 나이트: 문제 설명
+"""
+8X8 좌표평면에 특정한 칸에 나이트가 서 있다
+나이트는 이동 할 때 L 자 형태로만 이동 가능하며 정원을 나갈 수 없다
+나이트는 특정위치에서 2가지 경우로 이동 할 수 있다.
+* 수평으로 두 칸 이동 한 뒤 수직으로 한칸 이동 
+* 수직으로 두 칸 이동 한 뒤 수평으로 한칸 이동
+
+나이트가 이동 할 수 있는 경우의 수를 출력
+"""
+
+# 왕실의 나이트: 문제 조건
+"""
+풀이 시간20 분, 시간제한 1초, 메모리 제한 128MB
+* 첫째 줄에 8X8 좌표 평면상에서 현재 나이트가 위치한 곳의 좌표를 나타내는 두 문자로 구성된 
+문자열이 입력된다. 입력 문자는 a1처럼 열과 행으로 이뤄 진다.
+* 첫째 줄에 나이트가 이동할 수 있는 경우의 수를 출력 하라
+"""
+
+"""
+8 방향 이동 가능
+-2, +1
+-1, +2
++1, +2
++2, +1
++2, -1
++1, -2
+-1, -2
+-2, -1
+"""
+"""
+내 풀이
+"""
+print("-" * 100)
+MAX_BOARD = 8
+ASCII_a = 97
+
+vec = [
+    (-2, 1),
+    (-1, 2),
+    (1, 2),
+    (2, 1),
+    (2, -1),
+    (1, -2),
+    (-1, -2),
+    (-2, -1),
+]
+
+# x, y = list(input())
+x, y = list('a1')
+x = (ord(x) - ASCII_a) + 1
+x, y = int(x) - 1, int(y) - 1
+print(x, y)
+
+board = [[0] * 8 for _ in range(8)]
+board[y][x] = 1
+answer = 0
+
+for v in vec:
+    nx = x + v[1]
+    ny = y + v[0]
+    if nx < 0 or nx >= MAX_BOARD or ny < 0 or ny >= MAX_BOARD:
+        continue
+    answer += 1
+    board[ny][nx] = 1
+
+for b in board:
+    print(b)
+print(answer)
+
+"""
+해답
+(구조는 동일하다)
+"""
+input_data = 'a1'
+row = int(input_data[1])
+column = int(ord(input_data[0])) - int(ord('a')) + 1
+
+steps = [
+    (-2, 1),
+    (-1, 2),
+    (1, 2),
+    (2, 1),
+    (2, -1),
+    (1, -2),
+    (-1, -2),
+    (-2, -1),
+]
+
+result = 0
+for step in steps:
+    next_row = row + step[0]
+    next_column = column + step[1]
+
+    if next_row >= 1 and next_row <= 8 and next_column >= 1 and next_column <= 8:
+        result += 1
+
+print(result)
+
+# 문자열 재정렬: 문제 설명
+"""
+알파벳 대문자와 숫자(0~9)로만 구성된 문자열이 입력
+이 때 모든 알파벳을 오름차순으로 정렬 하여 이어서 출력
+그 뒤에 모든 숫자를 더한 값을 이어서 출력
+K1KA5CB7이라는 값이 들어오면 ABCKK13을 출력
+"""
+# 문자열 재정렬: 문제
+"""
+풀이시간 20 분, 시간제한 1초, 메모리제한 128MB
+* 첫째 줄에 하나의 문자열 S (1 <= S의 길이 <= 10_000)
+* 첫째 줄에 문제에서 요구하는 정답 출력
+"""
+"""
+내 풀이
+"""
+print("-" * 100)
+# S = list(input())
+# S = list("K1KA5CB7")
+# S = list("AJKDLSI412K4JSJ9D")
+S = "AJKDLSI412K4JSJ9D"
+
+alphabet = []
+number = []
+
+for s in S:
+    if ord(s) > ord('9'):
+        alphabet.append(s)
+    else:
+        number.append(int(s))
+alphabet.sort()
+alphabet.append(sum(number))
+
+print("".join(map(str, alphabet)))
+
+"""
+해답
+isalpha() 함수 사용
+"""
+data = "AJKDLSI412K4JSJ9D"
+result = []
+value = 0
+
+for x in data:
+    if x.isalpha():
+        result.append(x)
+    else:
+        value += int(x)
+result.sort()
+if value != 0:
+    result.append(str(value))
+
+print("".join(result))
